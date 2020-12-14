@@ -51,7 +51,7 @@ client.on('message', async (message) => {
   const TicTacToe = require('discord-tictactoe'); 
 new TicTacToe({
   language: 'en',
-  command: '!ttt'
+  command: '$ttt'
 }, client);
  
 
