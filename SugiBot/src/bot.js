@@ -53,4 +53,10 @@ client.on('message', async (message) => {
 
 })
 
+const TicTacToe = require('discord-tictactoe'); 
+            new TicTacToe({
+            language: 'en',
+            command: 'f-ttt'
+            }, client);
+
 client.login(token);
