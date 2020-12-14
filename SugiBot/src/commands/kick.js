@@ -1,9 +1,7 @@
 module.exports = {
-    name =  'kick',
-    description = 'Kick or ban user.',
+    name : 'kick',
+    description : 'Kick or ban user.',
     execute(message, args) {
-        
-        
         client.on('message', async (message) => {
             if (message.author.bot) return;
             if (message.content.startsWith(PREFIX)) {
