@@ -4,9 +4,9 @@
   "description": "",
   "main": "bot.js",
   "scripts": {
-    "dev:watch": "nodemon bot.js",
-    "dev": "node bot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./bot.js",
+    "dev": "nodemon ./bot.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +17,9 @@
     "fs": "0.0.1-security",
     "keyv": "^4.0.3",
     "node-fetch": "^2.6.1",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "node-opus": "^0.3.3",
+    "prism-media": "^1.2.3",
+    "ytdl-core": "^4.1.5"
   }
 }
