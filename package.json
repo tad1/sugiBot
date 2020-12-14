@@ -5,13 +5,17 @@
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/bot.js",
-    "dev": "nodemon ./src/bot.js"
+    "start": "node ./bot.js",
+    "dev": "nodemon ./bot.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0"
+    "fs": "0.0.1-security",
+    "node-fetch": "^2.6.1",
+    "node-opus": "^0.3.3",
+    "prism-media": "^1.2.3",
+    "ytdl-core": "^4.1.4"
   }
 }
