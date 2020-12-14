@@ -46,12 +46,7 @@ client.on('message', async (message) => {
           console.log(err);
           message.channel.send('Wystapil blad, lub nie mam uprawnien do zbanowania albo nie znaleziono uzytkownika');
         }
-      } else if (CMD_NAME === 'announce') {
-        console.log(args);
-        const msg = args.join(' ');
-        console.log(msg);
-        webhookClient.send(msg);
-      }
+      } 
     }
   });
   
