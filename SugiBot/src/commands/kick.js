@@ -2,6 +2,8 @@ module.exports = {
     name : 'kick',
     description : 'Kick or ban user.',
     execute(message, args) {
+      const Discord = require('discord.js');
+      const client = new Discord.Client();
         client.on('message', async (message) => {
             if (message.author.bot) return;
             if (message.content.startsWith(PREFIX)) {
