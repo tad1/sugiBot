@@ -2,9 +2,7 @@ require('dotenv').config();
 
 const { Client } = require('discord.js');
 const PREFIX = "$";
-const client = new Client({
-    partials: ["MESSAGE", 'REACTION']
-});
+const client = new Client();
 
 
 
