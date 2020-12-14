@@ -12,7 +12,7 @@ for (const file of commandFiles) {
     client.commands.set(command.name, command);
 }
 
-//bot initialization and set custom status
+
 client.once('ready', () => {
     console.log(`${client.user.tag} online.`);
 
@@ -27,12 +27,7 @@ client.once('ready', () => {
 //message receiving
 client.on('message', async (message) => {
 
-    //reply lol to user saying lol
-    if (message.author.bot) return;
-    if (message.content === 'lol') {
-        message.channel.send('lol');
-        console.log(`[${message.author.tag}] said lol`);
-    }
+    
 
     //only respond to messages with commands
     if (!message.content.startsWith(prefix) || message.author.bot) return;
