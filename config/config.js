@@ -7,7 +7,7 @@ const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 globalPrefix = '!';
 
 const tictactoe = new TicTacToe({
-    language: 'pl',
+    language: 'en',
     command: globalPrefix + 'tictactoe'
   }, client);
 
