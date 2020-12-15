@@ -1,20 +1,15 @@
 console.log("Initalizing!");
 
 require("dotenv").config();
-
-
 const fs = require("fs");
 const Discord = require("discord.js");
-
+const {globalPrefix, prefixes, client} = require("./config/config");
 
 
 
 //For voice channels
 var connection;
 
-const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
-
-const {globalPrefix, prefixes} = require("./config/config");
 
 //Bot commands import
 client.commands = new Discord.Collection();

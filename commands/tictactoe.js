@@ -1,18 +1,16 @@
-const TicTacToe = require('discord-tictactoe');
 const Discord = require('discord.js');
-const { prefix } = require('../config.json');
-const client = require("../init.js"); 
+const {globalPrefix, prefixes, client} = require("../config/config");
+let prefix = globalPrefix;
 
-new TicTacToe({
-  language: 'en',
-  command: prefix + 'tictactoe'
-}, client);
+
+
 module.exports = {
   
     name : 'tictactoe',
       description : 'Tic-tac-toe game',
-      execute(message, args) {
+      aliases: ['ttt'],
+      async execute(message, args) {
+        prefix = await prefixes.get(message.guild.id) || globalPrefix;
         
-         
       },
     };

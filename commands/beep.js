@@ -1,10 +1,10 @@
 module.exports = {
 	name: 'beep',
-	description: 'Get ping response from bot.',
+	description: 'Get boop response from bot.',
 	execute(message, args) {
 
 		console.log(`[${message.author.tag}] requested beep`);
 
-		message.channel.send('boop');
+		message.channel.send('boop :robot:');
 	},
 };
