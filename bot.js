@@ -41,20 +41,20 @@ client.on('ready', () => {
 client.on('message', async message => {
 	if (message.author.bot) return;
 
+	let prefix = globalPrefix;
 	//Handle message in guild
 	if (message.guild) {
-		let prefix;
 
 		prefix = await prefixes.get(message.guild.id);
 		if (!prefix) {
 			prefix = globalPrefix;
 		}
-		if (!message.content.startsWith(prefix)) return;
+		
+	}
+
+	if (!message.content.startsWith(prefix)) return;
 
 		args = message.content.slice(prefix.length).trim().split(/\s+/);
-	} else {
-		//Handle DMs
-	}
 
 	const commandName = args.shift().toLowerCase();
 
