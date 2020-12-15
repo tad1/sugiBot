@@ -24,8 +24,8 @@ module.exports = {
         }
         console.log(`[${message.author.tag}] requested help`);
 
-        bot_pfp = (await message.client.users.fetch('419918053825052682')).avatarURL();
-        me_pfp = (await message.client.users.fetch('398159734378725379')).avatarURL();
+        bot_pfp = (await message.client.users.fetch('788411929202655242')).avatarURL();
+        me_pfp = (await message.client.users.fetch('788411929202655242')).avatarURL();
         const embed = new Discord.MessageEmbed()
             .setTitle(title)
             .setColor("#000000")
