@@ -1,8 +1,9 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
+const client = require("./init.js"); 
 
-const client = new Discord.Client();
+
 client.commands = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
@@ -53,11 +54,6 @@ client.on('message', async (message) => {
 
 })
 
-const TicTacToe = require('discord-tictactoe'); 
-            new TicTacToe({
-            language: 'en',
-            command: 'f-ttt'
-            }, client);
 
 
 client.login(token);
