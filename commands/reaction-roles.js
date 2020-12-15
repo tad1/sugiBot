@@ -3,7 +3,8 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'reaction-roles',
-    description: 'Administration use only!\n ...',
+    description: 'Administration use only! \n Use this command for give roles for your slaves',
+    arguments: '`[-m message_id]` `<emoji role_id>` `<emoji role_id>...`',
     execute: async (message, args) => {
         if (message.member.hasPermission("ADMINISTRATOR")) {
             if (args.length) {

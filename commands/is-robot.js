@@ -1,7 +1,7 @@
 module.exports = {
     name: "is-robot",
     description: "Check if user is a robot",
-    example: "is-robot @UserName",
+    arguments: "`<@username>`",
     execute: (message, args) => {
         let member = message.author;
 		if (message.mentions.users.size) {

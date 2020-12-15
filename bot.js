@@ -25,6 +25,9 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
+//Sort commands list
+client.commands = new Discord.Collection([...client.commands.entries()].sort());
+
 
 prefixes.on('error', err => console.error('Keyv connection error:', err));
 

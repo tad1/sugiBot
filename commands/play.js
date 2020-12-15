@@ -6,6 +6,7 @@ module.exports = {
     name: 'play',
     description: 'Play music in voice chat, given a YouTube URL.',
     aliases: ['p', 'join'],
+    arguments: '`<youtube_url>`',
     async execute(message, args) {
 
         console.log(`[${message.author.tag}] requested play`);

@@ -5,6 +5,7 @@ module.exports = {
     name: "define",
     description: "I will define any word you want!",
     aliases: ['def'],
+    arguments: '`[lang = en]` `<word>`',
     execute: async (message, args) => {
         language = 'en';
         word = 'define';

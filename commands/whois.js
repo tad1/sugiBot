@@ -2,7 +2,8 @@ const Discord = require("discord.js");
 
 module.exports = {
     name: "whois",
-    description: "Check info about anybody!",
+	description: "Check info about anybody!",
+	arguments: '`<@username>`',
     execute: (message, args) => {
         let member = message.member;
 		let user = message.author;
@@ -18,7 +19,7 @@ module.exports = {
             .setTitle("User Informations")
 			.addFields(
 				{ name: 'User name', value: `${user.username}#${user.discriminator}`, inline: true },
-				{ name: 'User joined at', value: `${parsedDate}`, inline: true },
+				{ name: 'User joined server at', value: `${parsedDate}`, inline: true },
 			)
 			.addField("Roles:", member.roles.cache.map(r => `${r.name}`))
 			.setThumbnail(user.avatarURL())

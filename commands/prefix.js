@@ -4,6 +4,7 @@ const {globalPrefix, prefixes} = require('../config/config');
 module.exports = {
     name: "prefix",
     description: "Check and change prefix",
+    arguments: '`<new_prefix>`',
     execute: async (message, args) => {
         if (args.length) {
 			await prefixes.set(message.guild.id, args[0]);
