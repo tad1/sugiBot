@@ -8,7 +8,7 @@ module.exports = {
         let member = message.member;
 		let user = message.author;
 		if (message.mentions.users.size) {
-			const memberId = message.mentions.users.first().id;
+			const memberID = message.mentions.users.first().id;
 			member = message.guild.members.cache.get(memberID);
 			
 			user = message.mentions.users.first();
