@@ -35,11 +35,7 @@ client.on('ready', () => {
 			type: "LISTENING" // PLAYING, WATCHING, LISTENING, STREAMING,
 		}
 	});
-
-	//add listeners
 })
-
-
 
 
 client.on('message', async message => {
@@ -77,27 +73,6 @@ client.on('message', async message => {
 		console.error(error);
 		message.reply(`'error'`);
 	}
-
-
-
-	return;
-
-
-
-
-	if (command === 'join') {
-		if (message.member.voice.channel) {
-			connection = await message.member.voice.channel.join();
-		}
-	}
-
-	if (command === 'leave') {
-		if (connection && connection.channel === message.member.voice.channel) {
-			connection.disconnect();
-		}
-	}
-
-
 
 });
 
