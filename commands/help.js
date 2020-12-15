@@ -12,6 +12,10 @@ module.exports = {
         const client = message.client;
         let commands = client.commands.values();
         let title = "Available Commands";
+        let prefix = globalPrefix;
+        if(message.guild){
+            prefix = await prefixes.get(message.guild.id);
+        }
 
         if(args.length){
             commands = [];
@@ -29,7 +33,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
             .setTitle(title)
             .setColor("#000000")
-            .setDescription(`Prefix: \`${await prefixes.get(message.guild.id) || globalPrefix}\``)
+            .setDescription(`Prefix: \`${prefix}\``)
             .setThumbnail(bot_pfp)
             .setTimestamp()
             .setFooter('SugiBot by TeamSugimoto', me_pfp);
