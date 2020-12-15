@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "@keyv/mysql": "^1.1.4",
-    "discord-tictactoe": "^2.0.7",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "fs": "0.0.1-security",
