@@ -15,6 +15,9 @@ module.exports = {
         let prefix = globalPrefix;
         if(message.guild){
             prefix = await prefixes.get(message.guild.id);
+            if(!prefix){
+                prefix = globalPrefix;
+            }
         }
 
         if(args.length){
