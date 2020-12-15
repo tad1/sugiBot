@@ -12,10 +12,10 @@ module.exports = {
       if (member) {
         member
           .ban( {days: 7, reason : 'Bo tak'})
-          .then((member) => message.channel.send(`${member} zostal zbanowany.`))
-          .catch((err) => message.channel.send('Nie moge zbanowac uzytkownika :('));
+          .then((member) => message.channel.send(`${member} has been banned`))
+          .catch((err) => message.channel.send("I can't ban this user"));
       } else {
-        message.channel.send('Nie znaleziono uzytkownika');
+        message.channel.send('User not found');
       }
     },
 
