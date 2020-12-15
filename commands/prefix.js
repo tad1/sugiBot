@@ -10,7 +10,7 @@ module.exports = {
             await prefixes.set(message.guild.id, args[0]);
             
             //Change tictactoeprefix
-            tictactoe.setCommandName(args[0]+'tictactoe');
+            tictactoe.setCommandName([args[0] + 'tictactoe', args[0] + 'ttt']);
 			return message.channel.send(`Successfully set prefix to \`${args[0]}\``)
 		}
 
