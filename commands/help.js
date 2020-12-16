@@ -5,7 +5,7 @@ const {globalPrefix, prefixes} = require("../config/config");
 module.exports = {
 	name: 'help',
     description: 'Display list of commands for funny-bot.',
-    arguments: "`<command_name>`",
+    arguments: "`<command_name...>`",
     aliases: ['?', 'commands'],
 	async execute(message, args) {
         
