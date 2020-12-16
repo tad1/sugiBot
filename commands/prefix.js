@@ -6,6 +6,8 @@ module.exports = {
     description: "Check and change prefix",
     arguments: '`<new_prefix>`',
     execute: async (message, args) => {
+        if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("You don't have administrator powers to use this command.");
+        
         if (args.length) {
             await prefixes.set(message.guild.id, args[0]);
             

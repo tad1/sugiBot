@@ -6,7 +6,7 @@ module.exports = {
     description: 'Administration use only! \n Use this command for give roles for your slaves',
     arguments: '`[-m message_id]` `<emoji role_id>` `<emoji role_id>...`',
     execute: async (message, args) => {
-        if (message.member.hasPermission("ADMINISTRATOR")) {
+        if (message.member.hasPermission("MANAGE_ROLES")) {
             if (args.length) {
 
                 guild_id = message.guild.id;
