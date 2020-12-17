@@ -3,7 +3,7 @@ const {client} = require("../config/config.js");
 module.exports = {
     name: "unban",
     description: "Unban a member from the server",
-    arguments: "`<@username>` `[reason = Unspecified]`",
+    arguments: "`<userID>` `[reason = Unspecified]`",
 
     async execute (message, args) {
 
