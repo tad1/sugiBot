@@ -11,7 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@keyv/mysql": "^1.1.4",
     "@types/i18n": "^0.8.7",
     "@types/jest": "~25.2.1",
     "@types/node": "^12.19.1",
