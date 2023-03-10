@@ -31,12 +31,14 @@ module.exports = {
                     async function playSong() {
                         var getinfo = await ytdl.getBasicInfo(args[0]);
                         var title = Util.escapeMarkdown(getinfo.videoDetails.title);
-                        var thumbUrl = getinfo.videoDetails.thumbnail;
+                        var thumbUrl = getinfo.videoDetails.thumbnails;
                         console.log(title);
 
-                        connection.play(ytdl(args[0]), {
+                        connection.play(ytdl(args[0], {
                             filter: "audioonly",
                             quality: "highestaudio",
+                        }), {
+                            bitrate: "120000"
                         })
                             .on('start', () => {
                                 console.log('playing ' + title + ' on ' + message.guild.name);
@@ -44,7 +46,7 @@ module.exports = {
                                     .setColor('#ff0000')
                                     .setAuthor('Playing:')
                                     .setTitle("**" + title + "** in 🔊`" + message.member.voice.channel.name + "`.")
-                                    .setThumbnail(thumbUrl.thumbnails[thumbUrl.thumbnails.length - 1].url);
+                                    .setThumbnail(thumbUrl[thumbUrl.length - 1].url);
                                 message.channel.send(embed);
                             })
 

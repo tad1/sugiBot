@@ -65,9 +65,11 @@ module.exports = {
 
                 oneTime = 1;
 
-                connection.play(ytdl(songs[randomSong][0]), {
+                connection.play(ytdl(songs[randomSong][0],{
                     filter: "audioonly",
                     quality: "highestaudio",
+                }), {
+                    bitrate: "120000"
                 })
 
                     .on('start', () => {
