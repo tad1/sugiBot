@@ -68,12 +68,10 @@ client.on('messageCreate', async message => {
 		return message.channel.send({content: `You didn't provide any arguments, ${message.author}!`})
 	}
 
-	try{
-		command.execute(message, args);
-	} catch(error){
+	await command.execute(message, args).catch((error) => {
 		console.error(error);
-		message.reply({content: `'error'`});
-	}
+		message.reply({content: '`error`'});
+	})
 
 });
 

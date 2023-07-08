@@ -34,15 +34,17 @@ module.exports = {
                     
                     const connection = await connectToChannel(channel);
                     const player = createAudioPlayer();
+                    let stream;
 
 
                     async function playSong() {
-                        var getinfo = await ytdl.getBasicInfo(args[0]);
+                        var getinfo = await ytdl.getBasicInfo(args[0])
+                            .catch((err) =>{throw err});
                         var title = escapeMarkdown(getinfo.videoDetails.title);
                         var thumbUrl = getinfo.videoDetails.thumbnails;
                         console.log(title);
 
-                        const stream = ytdl(args[0], {
+                        stream = ytdl(args[0], {
                             filter: "audioonly",
                             quality: "highestaudio",
                         })
@@ -76,8 +78,11 @@ module.exports = {
                         });
                     }
 
-                    playSong();
-                    (await connection).subscribe(player);
+                    connection.subscribe(player);
+                    playSong().catch((err) => {
+                        leave(connection, player, stream)
+                        message.reply({content: '`error`'});
+                    });
 
 
                 } else {
