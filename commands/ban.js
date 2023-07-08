@@ -5,7 +5,7 @@ module.exports = {
   name: 'ban',
   description: 'Ban user',
   arguments: "`<@username>`",
-  execute(message, args) {
+  async execute(message, args) {
 
     if (!message.member.permissions.has(PermissionFlagsBits.BanMembers))
       return message.reply({content: "You do not have permissions to use that command"});

@@ -4,7 +4,7 @@ module.exports = {
     name: "whois",
 	description: "Check info about anybody!",
 	arguments: '`<@username>`',
-    execute: (message, args) => {
+    execute: async (message, args) => {
         let member = message.member;
 		let user = message.author;
 		if (message.mentions.users.size) {

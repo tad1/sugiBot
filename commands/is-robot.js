@@ -2,7 +2,7 @@ module.exports = {
     name: "is-robot",
     description: "Check if user is a robot",
     arguments: "`<@username>`",
-    execute: (message, args) => {
+    execute: async (message, args) => {
         let member = message.author;
 		if (message.mentions.users.size) {
 			member = message.mentions.users.first();

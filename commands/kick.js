@@ -6,7 +6,7 @@ module.exports = {
   name : 'kick',
     description : 'Kick  user.',
     arguments: "`<@username>`",
-    execute(message, args) {
+    async execute(message, args) {
                 if (!message.member.permissions.has(PermissionFlagsBits.KickMembers))
                       return message.reply({content: "You do not have permissions to use that command"});
                 if (!message.guild.members.me.permissions.has(PermissionFlagsBits.KickMembers))
