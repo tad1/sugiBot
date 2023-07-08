@@ -2,7 +2,7 @@ console.log("Initalizing!");
 
 require("dotenv").config();
 const fs = require("fs");
-const Discord = require("discord.js");
+const {Collection, version, ActivityType} = require("discord.js");
 const {globalPrefix, prefixes, client} = require("./config/config");
 
 
@@ -10,9 +10,10 @@ const {globalPrefix, prefixes, client} = require("./config/config");
 //For voice channels
 var connection;
 
+console.log(`Discord.js version: ${version}`);
 
 //Bot commands import
-client.commands = new Discord.Collection();
+client.commands = new Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
@@ -21,7 +22,7 @@ for (const file of commandFiles) {
 }
 
 //Sort commands list
-client.commands = new Discord.Collection([...client.commands.entries()].sort());
+client.commands = new Collection([...client.commands.entries()].sort());
 
 
 prefixes.on('error', err => console.error('Keyv connection error:', err));
@@ -30,15 +31,15 @@ client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 	client.user.setPresence({
 		status: "online",  // You can show online, idle... Do not disturb is dnd
-		activity: {
+		activities: [{
 			name: "s-help",  // The message shown
-			type: "LISTENING" // PLAYING, WATCHING, LISTENING, STREAMING,
-		}
+			type: ActivityType.Listening // PLAYING, WATCHING, LISTENING, STREAMING,
+		}]
 	});
 })
 
 
-client.on('message', async message => {
+client.on('messageCreate', async message => {
 	if (message.author.bot) return;
 
 	let prefix = globalPrefix;
@@ -64,14 +65,14 @@ client.on('message', async message => {
 	if(!command) return;
 
 	if(command.args && !args.length){
-		return message.channel.send(`You didn't provide any arguments, ${message.author}!`)
+		return message.channel.send({content: `You didn't provide any arguments, ${message.author}!`})
 	}
 
 	try{
 		command.execute(message, args);
 	} catch(error){
 		console.error(error);
-		message.reply(`'error'`);
+		message.reply({content: `'error'`});
 	}
 
 });

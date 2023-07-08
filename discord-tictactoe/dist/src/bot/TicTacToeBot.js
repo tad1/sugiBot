@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
+const {ChannelType} = require("discord.js");
 const CommandHandler_1 = __importDefault(require("./CommandHandler"));
 const StartCommand_1 = __importDefault(require("./commands/StartCommand"));
 const GameChannel_1 = __importDefault(require("./channel/GameChannel"));
@@ -40,10 +41,10 @@ class TicTacToeBot {
         this._commandHandler.addCommand();
     }
     addEventListeners() {
-        this.client.on('message', this.onMessage.bind(this));
+        this.client.on('messageCreate', this.onMessage.bind(this));
     }
     onMessage(message) {
-        if (!message.author.bot && message.channel.type === 'text') {
+        if (!message.author.bot && message.channel.type === ChannelType.GuildText) {
             const [command, ...params] = message.content.split(' ');
             if(this.commandName.indexOf(command) != -1){
                 const cmd = new StartCommand_1.default(this);

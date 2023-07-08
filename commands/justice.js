@@ -1,4 +1,8 @@
 const ytdl = require('ytdl-core');
+const {connectToChannel, leave} = require('../utils/audio')
+const { joinVoiceChannel, entersState, VoiceConnectionStatus, createAudioPlayer, createAudioResource, generateDependencyReport, AudioPlayerStatus, VoiceConnection } = require('@discordjs/voice');
+const play = require('./play');
+
 
 module.exports = {
     name: 'justice',
@@ -9,13 +13,17 @@ module.exports = {
         console.log(`[${message.author.tag}] requested justice`);
 
         if (!message.guild) {
-            message.channel.send("You're not in a voice channel.");
+            message.channel.send({content: "You're not in a voice channel."});
             return;
         }
 
         if (message.member.voice.channel) {
-            const connection = await message.member.voice.channel.join();
+            const channel = message.member?.voice.channel;
 
+            const connection = await connectToChannel(channel);
+            const player = createAudioPlayer()
+            let stream;
+            let randomSong
 
             let songs = [
                 ['https://youtube.com/watch?v=YT59g6xekFE', 'Safe and Sound'],
@@ -42,7 +50,8 @@ module.exports = {
                 ['https://youtube.com/watch?v=8mIr-C8QE9Y', 'LoveStoned (Justice Remix)'],
                 ['https://youtube.com/watch?v=Q5aiEegBvSA', 'Let Love Rule (Justice Remix)'],
                 ['https://youtube.com/watch?v=4rAsPAGaI34', 'Me Against The Music (Justice Remix)'],
-                ['https://youtube.com/watch?v=Z9o9nHvOjmY', 'Get On Your Boots (Justice Remix)'],
+                //? NOTE: this one is unavaiable, for this one the bot will just leave without any feedback 
+                // ['https://youtube.com/watch?v=Z9o9nHvOjmY', 'Get On Your Boots (Justice Remix)'],
                 ['https://youtube.com/watch?v=eH0qlIkMg_o', 'Human After All (Justice Remix)'],
                 ['https://youtube.com/watch?v=6QL_bUCuhvo', 'Electric Feel (Justice Remix)'],
                 ['https://youtube.com/watch?v=pmlIQoyOFzA', 'Canon (Primo)']
@@ -50,49 +59,57 @@ module.exports = {
 
             var oneTime = 0;
 
+            player.on('playing', () => {
+                console.log('playing ' + songs[randomSong][1] + ' on ' + message.guild.name);
+                message.channel.send({content: "Playing **" + songs[randomSong][1] + "** in 🔊`" + message.member.voice.channel.name + "`."})
+            })
+
+            player.on(AudioPlayerStatus.Idle, () => {
+                    if (channel.members.first() != channel.members.last()) {
+                        loop();
+                    } else {
+                        leave(connection, player, stream)
+                    }
+                })
+
+            player.on('error', () => {leave(connection, player, stream);  console.error});
+
+
+
             function loop() {
 
-                let randomSong = Math.floor(Math.random() * Math.floor(songs.length));
+                if(stream)
+                    stream.destroy();
+
+                randomSong = Math.floor(Math.random() * Math.floor(songs.length));
 
                 if (args[0]) {
                     let devCode = args[0];
                     if (devCode.startsWith('dev:') && oneTime == 0) {
                         randomSong = devCode.substring(4);
                     } else if (oneTime==0) {
-                        message.channel.send("This command does not take arguments.");
+                        message.channel.send({content: "This command does not take arguments."});
                     }
                 }
 
                 oneTime = 1;
 
-                connection.play(ytdl(songs[randomSong][0],{
+                stream = ytdl(songs[randomSong][0],{
                     filter: "audioonly",
                     quality: "highestaudio",
-                }), {
-                    bitrate: "120000"
-                })
+                });
 
-                    .on('start', () => {
-                        console.log('playing ' + songs[randomSong][1] + ' on ' + message.guild.name);
-                        message.channel.send("Playing **" + songs[randomSong][1] + "** in 🔊`" + message.member.voice.channel.name + "`.")
-                    })
+                const resource = createAudioResource(stream)
+                player.play(resource)
 
-                    .on('finish', () => {
-                        if (connection.channel.members.first() != connection.channel.members.last()) {
-                            loop();
-                        } else {
-                            connection.disconnect();
-                        }
-                    })
-
-                    .on('error', console.error);
 
             }
 
             loop();
+            (await connection).subscribe(player);
 
         } else {
-            message.channel.send("You're not in a voice channel.");
+            message.channel.send({content: "You're not in a voice channel."});
         }
 
     },

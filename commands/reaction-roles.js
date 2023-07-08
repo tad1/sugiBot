@@ -1,12 +1,12 @@
-const Discord = require('discord.js');
-
+const {EmbedBuilder, PermissionFlagsBits} = require('discord.js');
+const {getId}= require('../utils/id')
 
 module.exports = {
     name: 'reaction-roles',
     description: 'Administration use only! \n Use this command for give roles for your slaves',
     arguments: '`[-m message_id]` `<emoji role_id>` `<emoji role_id>...`',
     execute: async (message, args) => {
-        if (message.member.hasPermission("MANAGE_ROLES")) {
+        if (message.member.permissions.has(PermissionFlagsBits.ManageRoles)) {
             if (args.length) {
 
                 guild_id = message.guild.id;
@@ -27,7 +27,7 @@ module.exports = {
 
                 } else {
                     //Create rection listener
-                    const rolesEmbed = new Discord.MessageEmbed()
+                    const rolesEmbed = new EmbedBuilder()
                         .setColor('#0099ff')
                         .setTitle('React to Get Roles');
 
@@ -35,12 +35,15 @@ module.exports = {
                     roles = [];
 
                     for (let i = 1; i < args.length; i += 2) {
-                        rolesEmbed.addField(`${args[i - 1]} to get ${message.guild.roles.cache.get(args[i]).name}`, '================');
+                        let roleId = getId(args[i]);
+                        const role = message.guild.roles.cache.get(roleId)
+
+                        rolesEmbed.addFields({name:`${args[i - 1]} to get ${role.name}`, value:'================'});
                         emojies.push(args[i - 1]);
                         roles.push(args[i]);
                     }
 
-                    msg = await message.channel.send(rolesEmbed);
+                    msg = await message.channel.send({embeds: [rolesEmbed]});
                     message_id = await msg.id;
                     message.delete();
                     message = msg;
@@ -51,7 +54,7 @@ module.exports = {
 
                 for (let i = 1; i < args.length; i += 2) {
                     emojies.push(args[i - 1]);
-                    roles.push(args[i]);
+                    roles.push(getId(args[i]));
                 }
 
                 //React to embed message
@@ -62,6 +65,7 @@ module.exports = {
 
                 message.client.on('messageReactionAdd', async (reaction, user) => {
 
+                    console.log("test")
                     if (reaction.message.partial) await reaction.message.fetch();
                     if (reaction.partial) await reaction.fetch();
 
@@ -71,7 +75,11 @@ module.exports = {
                     if (reaction.message.id === message.id) {
                         for (let i = 0; i < roles.length; i++) {
                             if (reaction.emoji.name === emojies[i]) {
-                                await reaction.message.guild.members.cache.get(user.id).roles.add(roles[i]);
+                                const target = reaction.message.guild.members.cache.get(user.id); 
+                                if(reaction.message.guild.roles.partial)
+                                    await reaction.message.guild.roles.fetch()
+                                const role = reaction.message.guild.roles.cache.get(roles[i])
+                                target.roles.add(role);
                             }
                         }
                     }
@@ -101,10 +109,10 @@ module.exports = {
 
             } else {
                 //Command Info
-                message.channel.send("Info about `!reaction-roles` command")
+                message.channel.send({content: "Info about `!reaction-roles` command"})
             }
         } else {
-            message.reply("You don't have permission to use this command");
+            message.reply({content: "You don't have permission to use this command"});
         }
 
 

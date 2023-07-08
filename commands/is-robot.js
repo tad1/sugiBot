@@ -8,8 +8,8 @@ module.exports = {
 			member = message.mentions.users.first();
 		}
 		if (member.bot) {
-			return message.channel.send(`Beeb Boop! ${member} is a robot`);
+			return message.channel.send({content: `Beeb Boop! ${member} is a robot`});
 		}
-		return message.channel.send(`${member} is not a robot!`);
+		return message.channel.send({content: `${member} is not a robot!`, allowedMentions: {users: []}});
     } 
 }

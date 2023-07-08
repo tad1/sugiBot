@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
+const {EmbedBuilder} = require("discord.js");
 const localize_1 = __importDefault(require("../../config/localize"));
 class DuelRequestMessage {
     constructor(channel, message, invited) {
@@ -22,15 +23,15 @@ class DuelRequestMessage {
     }
     send() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.message = yield this.request.channel.send(this.createEmbed());
+            this.message = yield this.request.channel.send({embeds: [this.createEmbed()]});
             for (const reaction of DuelRequestMessage.REACTIONS) {
                 yield this.message.react(reaction);
             }
             this.message
-                .awaitReactions((reaction, user) => {
+                .awaitReactions({ filter: (reaction, user) => {
                 return (DuelRequestMessage.REACTIONS.includes(reaction.emoji.name) &&
                     user.id === this.invited.id);
-            }, { max: 1, time: 60000, errors: ['time'] })
+            }, max: 1, time: 60000, errors: ['time'] })
                 .then(this.challengeAnswered.bind(this))
                 .catch(this.challengeExpired.bind(this));
         });
@@ -62,7 +63,7 @@ class DuelRequestMessage {
     }
     createEmbed() {
         var _a;
-        return new discord_js_1.MessageEmbed()
+        return new EmbedBuilder()
             .setColor('#2980b9')
             .setTitle(localize_1.default.__('duel.title'))
             .setDescription(localize_1.default.__('duel.challenge', {

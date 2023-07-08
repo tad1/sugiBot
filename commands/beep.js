@@ -5,6 +5,6 @@ module.exports = {
 
 		console.log(`[${message.author.tag}] requested beep`);
 
-		message.channel.send('boop :robot:');
+		message.channel.send({content: 'boop :robot:'});
 	},
 };

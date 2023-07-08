@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const Discord = require('discord.js');
+const {EmbedBuilder} = require('discord.js');
 
 module.exports = {
     name: "define",
@@ -22,11 +22,11 @@ module.exports = {
             data = await fetch(url);
             json = await data.json();
 
-            if(data.status != 200) return message.channel.send(json.title);
+            if(data.status != 200) return message.channel.send({content: json.title});
 
             word = json[0];
 
-            const embedMessage = new Discord.MessageEmbed()
+            const embedMessage = new EmbedBuilder()
             .setTitle(word.word);
 
             let pronunciation = ""
@@ -42,10 +42,10 @@ module.exports = {
                 for(definition of meaning.definitions){
                     definitions += '   ' + definition.definition + '\n';
                 }
-                embedMessage.addField(meaning.partOfSpeech, definitions);
+                embedMessage.addFields({name: meaning.partOfSpeech, value: definitions});
             }
 
-            return message.channel.send(embedMessage);
+            return message.channel.send({embeds: [embedMessage]});
             
 
             

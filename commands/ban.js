@@ -1,4 +1,5 @@
-const { GuildMember } = require("discord.js");
+const { GuildMember, PermissionFlagsBits } = require("discord.js");
+const {dwt} = require("../config/config")
 
 module.exports = {
   name: 'ban',
@@ -6,9 +7,12 @@ module.exports = {
   arguments: "`<@username>`",
   execute(message, args) {
 
-    if (!message.member.hasPermission('BAN_MEMBERS'))
-      return message.reply("You do not have permissions to use that command");
-    if (args.length === 0) return message.reply("Please mention user you would like to ban");
+    if (!message.member.permissions.has(PermissionFlagsBits.BanMembers))
+      return message.reply({content: "You do not have permissions to use that command"});
+    if (!message.guild.members.me.permissions.has(PermissionFlagsBits.BanMembers))
+      return message.reply({content: "I can't. I don't have permission to ban this user\n"+dwt()});
+                
+    if (args.length === 0) return message.reply({content: "Please mention user you would like to ban"});
 
     let reason = args.slice(1).join(" ");
     if (!reason) reason = 'Unspecified';
@@ -18,10 +22,10 @@ module.exports = {
     if (member) {
       member
         .ban({ days: 7, reason: reason })
-        .then((member) => message.channel.send(`${member} has been banned`))
-        .catch((err) => message.channel.send("I can't ban this user"));
+        .then((member) => message.channel.send({content: `${member} has been banned`}))
+        .catch((err) => {console.log(err); message.channel.send({content: "I can't ban this user"})});
     } else {
-      message.channel.send('User not found');
+      message.channel.send({content: 'User not found'});
     }
   },
 

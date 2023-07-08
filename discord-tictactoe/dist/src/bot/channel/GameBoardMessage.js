@@ -96,10 +96,14 @@ class GameBoardMessage {
         if (!this.message || this.message.deleted)
             return;
         this.message
-            .awaitReactions((reaction, user) => {
+            .awaitReactions({
+                filter: (reaction, user) => {
             return (user.id === this.currentEntity.id &&
                 this.game.isMoveValid(GameBoardMessage.reactionToMove(reaction.emoji.name)));
-        }, { max: 1, time: 30000, errors: ['time'] })
+        }
+        , max: 1, 
+        time: 30000, 
+        errors: ['time'] })
             .then(this.onMoveSelected.bind(this))
             .catch(this.onExpire.bind(this));
     }

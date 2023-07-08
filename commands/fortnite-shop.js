@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const Discord = require('discord.js');
+const {EmbedBuilder} = require('discord.js');
 
 module.exports = {
 	name: 'fortnite-shop',
@@ -15,42 +15,58 @@ module.exports = {
             return items;
         }
         const items = await fetchItems();
+        const embedFieldsLimit = 25;
 
         function shopCategory(categoryName, color) {
             if (items.data[categoryName] != null) {
                 const entries = items.data[categoryName].entries;
-                let bundleName = [];
-                let bundlePrice = [];
-                let itemType = [];
-
-                for (let i = 0; i != entries.length; i++) {
-                    if (entries[i].bundle != null) {
-                        bundleName[i] = entries[i].bundle.name;
-                    } else {
-                        bundleName[i] = entries[i].items[0].name;
-                    }
-                    bundlePrice[i] = entries[i].finalPrice;
-
-                    if (entries[i].items.length > 1) {
-                        let typeTemp = [];
-                        for (let j = 0; j != entries[i].items.length; j++) {
-                            typeTemp[j] = entries[i].items[j].type.displayValue;
-                        }
-                        itemType[i] = typeTemp.join(', ');
-                    } else {
-                        itemType[i] = entries[i].items[0].type.displayValue;
-                    }
+                
+                //divide entries into chunks
+                let chunks = []
+                for (let i = 0 ; i  < entries.length; i+= embedFieldsLimit){
+                    chunks.push(entries.slice(i, i + embedFieldsLimit))
                 }
+                let embeds = []
 
-                const embed = new Discord.MessageEmbed()
+                chunks.forEach(chunk => {
+                    
+                    let bundleName = [];
+                    let bundlePrice = [];
+                    let itemType = [];
+                    
+                    for (let i = 0; i != chunk.length; i++) {
+                        if (chunk[i].bundle != null) {
+                            bundleName[i] = chunk[i].bundle.name;
+                        } else {
+                            bundleName[i] = chunk[i].items[0].name;
+                        }
+                        bundlePrice[i] = chunk[i].finalPrice;
+                        
+                        if (chunk[i].items.length > 1) {
+                            let typeTemp = [];
+                            for (let j = 0; j != chunk[i].items.length; j++) {
+                                typeTemp[j] = chunk[i].items[j].type.displayValue;
+                            }
+                            itemType[i] = typeTemp.join(', ');
+                        } else {
+                            itemType[i] = chunk[i].items[0].type.displayValue;
+                        }
+                    }
+                    
+                    const embed = new EmbedBuilder()
                     .setTitle(items.data[categoryName].name)
                     .setColor(color)
-                    .setThumbnail(entries[0].items[0].images.smallIcon);
-
-                for (let i = 0; i != entries.length; i++) {
-                    embed.addField(bundleName[i] + "\n`" + bundlePrice[i] + "`", itemType[i], true);
-                }
-                message.channel.send(embed);
+                    .setThumbnail(chunk[0].items[0].images.smallIcon);
+                    
+                    let fields = []
+                    for (let i = 0; i != chunk.length; i++) {
+                        fields.push({name: bundleName[i] + "\n`" + bundlePrice[i] + "`", value: itemType[i], inline: true})
+                    }
+                    
+                    embed.addFields(fields);
+                    embeds.push(embed)
+                });
+                    message.channel.send({embeds: embeds});
             }
 
         }

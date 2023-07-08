@@ -2,6 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var {PermissionFlagsBits} = require('discord.js')
 Object.defineProperty(exports, "__esModule", { value: true });
 const localize_1 = __importDefault(require("../../config/localize"));
 class StartCommand {
@@ -36,7 +37,7 @@ class StartCommand {
             if (invited &&
                 !invited.user.bot &&
                 message.member !== invited &&
-                invited.permissionsIn(message.channel).has('VIEW_CHANNEL')) {
+                invited.permissionsIn(message.channel).has(PermissionFlagsBits.ViewChannel)) {
                 return invited;
             }
         }

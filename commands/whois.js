@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     name: "whois",
@@ -16,17 +16,17 @@ module.exports = {
 
         const joinedAt = member.joinedAt;
         const parsedDate = joinedAt.getUTCHours() + ':' + joinedAt.getUTCMinutes() + ' ' + joinedAt.getUTCDate() + '.' + joinedAt.getUTCMonth() + '.' + joinedAt.getUTCFullYear();
-		const embedMessage = new Discord.MessageEmbed()
-			.setAuthor(user.username, user.avatarURL())
+		const embedMessage = new EmbedBuilder()
+			.setAuthor({ name: user.username, iconURL: user.avatarURL()})
             .setTitle("User Informations")
 			.addFields(
 				{ name: 'User name', value: `${user.username}#${user.discriminator}`, inline: true },
 				{ name: 'User joined server at', value: `${parsedDate}`, inline: true },
 			)
-			.addField("Roles:", member.roles.cache.map(r => `${r.name}`))
+			.addFields({name: "Roles:", value: member.roles.cache.map(r => `${r.name}`).join("\r\n")})
 			.setThumbnail(user.avatarURL())
-			.addField("Id:", member.id);
+			.addFields({name: "Id:", value: member.id});
 
-		message.channel.send(embedMessage);
+		message.channel.send({embeds: [embedMessage]});
     } 
 }

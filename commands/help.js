@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const {EmbedBuilder} = require('discord.js');
 const {globalPrefix, prefixes} = require("../config/config");
 
 
@@ -33,13 +33,13 @@ module.exports = {
 
         bot_pfp = (await message.client.users.fetch('788411929202655242')).avatarURL();
         me_pfp = (await message.client.users.fetch('788411929202655242')).avatarURL();
-        const embed = new Discord.MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(title)
             .setColor("#000000")
             .setDescription(`Prefix: \`${prefix}\``)
             .setThumbnail(bot_pfp)
             .setTimestamp()
-            .setFooter('SugiBot by TeamSugimoto', me_pfp);
+            .setFooter({text: 'SugiBot by TeamSugimoto', iconURL: me_pfp});
 
         for(let command of commands){
             let aliases = '';
@@ -50,7 +50,7 @@ module.exports = {
             if(command.aliases){
                 aliases = "Alias: `"+command.aliases.join('`, `') + '`\n';
             }
-            embed.addField(title, command.description + '\n' + aliases)
+            embed.addFields({name: title, value: command.description + "\n" + aliases})
         }
             // .addFields(
             //     { name: '\u200B', value: '**`help`**\nDisplay list of commands for funny-bot.\nAlias: `?` `commands`', inline: false },
@@ -59,7 +59,7 @@ module.exports = {
             //     { name: '\u200B', value: '**`justice`**\nPlay random Justice song.\nAlias: `random-justice`', inline: false },
             //     { name: '\u200B', value: '\u200B', inline: false },
             // )
-        message.channel.send(embed);
+        message.channel.send({embeds: [embed]});
 
 	},
 };
