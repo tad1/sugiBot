@@ -10,6 +10,6 @@ module.exports = {
         let user = message.author;
         if(user.id != 514369093424381963) return;
         console.log(channelId)
-        client.channels.cache.get(channelId).send({content: `"@lukgla it's gaming time!`});
+        client.channels.cache.get(channelId).send({content: `@lukgla it's gaming time!`});
 	},
 };
