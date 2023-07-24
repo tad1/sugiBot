@@ -4,7 +4,7 @@ const { client } = require('../config/config');
 module.exports = {
 	name: 'remind-lukgla',
 	description: 'run this command to remind lukgla about gaming time',
-	execute(message, args) {
+	async execute(message, args) {
 
         channelId = args[0]
         let user = message.author;
